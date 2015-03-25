@@ -2746,7 +2746,7 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 0xc1;
         pchMessageStart[2] = 0xb7;
         pchMessageStart[3] = 0xdc;
-        hashGenesisBlock = uint256("0xf5ae71e26c74beacc88382716aced69cddf3dffff24f384e1808905e0188f68f");
+        hashGenesisBlock = uint256("0x996cdb8bffafe288f3917e56f6dd2387ea64a69e620fd11730c43c9b31a5428e");
     }
 
     //
@@ -2798,7 +2798,7 @@ bool InitBlockIndex() {
         if (fTestNet)
         {
             block.nTime    = 1427203081;
-            block.nNonce   = 385270584;
+            block.nNonce   = 387175550;
         }
 
         //// debug print
@@ -2806,7 +2806,46 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9"));
+        assert(block.hashMerkleRoot == uint256("0xf6abe477637fba3e3f122d907e2679e1315c767e2c9b6c3d53fdb0441b4783e7"));
+        
+                ////////
+        
+        if (true && block.GetHash() != hashGenesisBlock) {
+  	uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+	uint256 thash;
+	char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
+	loop {
+	    	printf("Computing...\n");
+		#if defined(USE_SSE2)
+			// Detection would work, but in cases where we KNOW it always has SSE2,
+			// it is faster to use directly than to use a function pointer or conditional.
+		#if defined(_M_X64) || defined(__x86_64__) || defined(_M_AMD64) || (defined(MAC_OSX) && defined(__i386__))
+			// Always SSE2: x86_64 or Intel MacOS X
+			scrypt_1024_1_1_256_sp_sse2(BEGIN(block.nVersion), BEGIN(thash), scratchpad);
+		#else
+			// Detect SSE2: 32bit x86 Linux or Windows
+			scrypt_1024_1_1_256_sp(BEGIN(block.nVersion), BEGIN(thash), scratchpad);
+		#endif
+		#else
+			// Generic scrypt
+			scrypt_1024_1_1_256_sp_generic(BEGIN(block.nVersion), BEGIN(thash), scratchpad);
+		#endif
+			
+		if (thash <= hashTarget)
+			break;
+		block.nNonce += 1;
+		if (block.nNonce == 0) {
+			block.nTime += 1;
+	    	}
+	}
+	
+	printf("END LOOP - block.nTime = %u \n", block.nTime);
+	printf("END LOOP - block.nNonce = %u \n", block.nNonce);
+	printf("END LOOP - block.GetHash = %s\n", block.GetHash().ToString().c_str());
+}
+        
+        ////////
+        
         block.print();
         assert(hash == hashGenesisBlock);
 
