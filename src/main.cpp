@@ -2779,7 +2779,7 @@ bool InitBlockIndex() {
         //   vMerkleTree: 97ddfbbae6
 
         // Genesis block
-        const char* pszTimestamp = "NY Times 24/March/2015 The Lava Is Coming, but Very Slowly";
+        const char* pszTimestamp = "NY Times 25/March/2015 Wall Street Stars Join Silicon Valley Gold Rush";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -2791,7 +2791,7 @@ bool InitBlockIndex() {
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1427203081;
+        block.nTime    = 1427310135;
         block.nBits    = 0x1e0ffff0;
         block.nNonce   = 2084524493;
 
@@ -2806,7 +2806,7 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0xf6abe477637fba3e3f122d907e2679e1315c767e2c9b6c3d53fdb0441b4783e7"));
+        assert(block.hashMerkleRoot == uint256("0xd66565245943e3c89af34df77a965dd4df007a476c4a78dad685e26125085e2d"));
         
                 ////////
         
