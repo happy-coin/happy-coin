@@ -35,7 +35,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2");
+uint256 hashGenesisBlock("0xcd9f1f8cfdd45c7f2c91396be652bb22a96419a7ab07c6ce8011243d74a8d74e");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // HappyCoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -2793,7 +2793,7 @@ bool InitBlockIndex() {
         block.nVersion = 1;
         block.nTime    = 1427310135;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 2084524493;
+        block.nNonce   = 388793504;
 
         if (fTestNet)
         {
@@ -2810,7 +2810,7 @@ bool InitBlockIndex() {
         
                 ////////
         
-        if (true && block.GetHash() != hashGenesisBlock) {
+        if (false && block.GetHash() != hashGenesisBlock) {
   	uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
 	uint256 thash;
 	char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
