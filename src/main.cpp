@@ -2810,7 +2810,7 @@ bool InitBlockIndex() {
         
                 ////////
         
-        if (true && block.GetHash() != hashGenesisBlock) {
+        if (false && block.GetHash() != hashGenesisBlock) {
   	uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
 	uint256 thash;
 	char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
